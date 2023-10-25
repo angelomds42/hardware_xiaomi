@@ -109,6 +109,9 @@ const struct effect_stream* get_effect_stream(uint32_t effectId) {
         if (newEffectStream) {
             auto result = sEffectStreams.emplace(effectId, *newEffectStream);
             return &result.first->second;
+        } else if (effectId == (uint32_t)Effect::TEXTURE_TICK) {
+            LOG(VERBOSE) << "Could not get texture tick effect, falling back to tick effect";
+            return get_effect_stream((uint32_t)Effect::TICK);
         } else if (effectId == (uint32_t)Effect::DOUBLE_CLICK) {
             LOG(VERBOSE) << "Could not get double click effect, duplicating click effect";
             newEffectStream = duplicateEffect(get_effect_stream((uint32_t)Effect::CLICK),
